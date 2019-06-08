@@ -1,0 +1,23 @@
+  datatype 'a stream = Nil
+                     |Cons of unit -> 'a*'a stream
+                     
+  fun toString 
+      (itemToString : 'a -> string) 
+      (n : int) 
+      (xs : 'a stream) : string =
+  let
+    fun items (n : int) (ys : 'a stream) : string =
+      case (ys, n) of
+           (Nil, _) => ""
+         | (_, 0) => "..."
+         | (Cons(yys), _) =>
+             let
+               val (yhd, ytl) = yys()
+             in
+               case ytl of
+                    Nil => itemToString yhd
+                  | _ => (itemToString yhd) ^ ", " ^ (items (n-1) ytl)
+             end
+  in
+    "<" ^ (items n xs) ^ ">"
+  end
