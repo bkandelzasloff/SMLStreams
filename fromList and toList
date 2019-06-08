@@ -1,0 +1,12 @@
+  fun fromList(xs : 'a list) : 'a stream =
+    List.foldr(fn (y, r) => Cons(fn () => (y, r))) Nil xs
+    
+  fun toList(xs : 'a stream) : 'a list =
+    case xs of
+         Nil => []
+       | Cons(xs) =>
+           let
+             val (y, ys) = xs()
+           in
+             y :: toList(ys)
+           end
