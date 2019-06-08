@@ -1,0 +1,6 @@
+  fun unfold (f : 'a -> ('b*'a) option) (s : 'a) : 'b stream =
+    case f(s) of
+         NONE => Nil
+       | SOME(s, r) =>
+           Cons(fn () => (s, unfold f r))
+           
