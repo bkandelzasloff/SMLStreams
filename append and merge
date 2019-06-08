@@ -1,0 +1,18 @@
+ fun append(xs : 'a stream, ys : 'a stream) : 'a stream =
+    case xs of
+         Nil => ys
+       | Cons(xs) =>
+           let
+             val (z, zs) = xs()
+           in
+             Cons(fn () => (z, append(zs, ys)))
+           end
+           
+ fun merge(xs : 'a stream, ys : 'a stream) : 'a stream =
+    unfold(fn (xs', ys') => 
+      case (xs', ys') of
+        (Nil, Nil) => NONE
+      | (Nil, Cons(_)) => SOME(hd ys', (xs', tl ys'))
+      | (Cons(_), Nil) => SOME(hd xs', (tl xs', ys'))
+      | (Cons(_), Cons(_)) => SOME(hd xs', (ys', tl xs'))) (xs, ys)
+        
