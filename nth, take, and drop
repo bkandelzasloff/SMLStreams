@@ -1,0 +1,33 @@
+  fun nth(xs : 'a stream, n : int) : 'a =
+    case xs of
+         Nil => raise Subscript
+       | Cons(xs) =>
+           let
+             val (y, ys) = xs()
+           in
+             if n = 0 then y
+             else nth(ys, n-1)
+           end
+           
+  fun take(xs : 'a stream, n : int) : 'a stream =
+    case xs of
+         Nil => Nil
+       | Cons(xs) =>
+           let
+             val (y, ys) = xs()
+           in
+             if n = 0 then Nil
+             else
+               Cons(fn () => (y, take(ys, n-1)))
+           end
+           
+  fun drop(xs : 'a stream, n : int) : 'a stream =
+    case xs of
+         Nil => Nil
+       | Cons(xs) =>
+           let
+             val (y, ys) = xs()
+           in
+             if n = 0 then Cons(fn () => (y, ys))
+             else drop(ys, n-1)
+           end
