@@ -1,0 +1,19 @@
+  fun hd(xs : 'a stream) : 'a =
+    case xs of
+         Nil => raise Empty
+       | Cons(xs) =>
+           let
+             val (y, ys) = xs()
+           in
+             y
+           end
+           
+  fun tl(xs : 'a stream) : 'a stream =
+    case xs of
+         Nil => raise Empty
+       | Cons(xs) =>
+           let
+             val (y, ys) = xs()
+           in
+             ys
+           end
