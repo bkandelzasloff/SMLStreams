@@ -1,0 +1,14 @@
+  fun map (f : 'a -> 'b) (xs : 'a stream) : 'b stream =
+    case xs of
+         Nil => Nil
+       | Cons(_) =>
+           Cons(fn () => (f(hd xs), map f (tl xs)))
+           
+  fun filter (p : 'a -> bool) (xs : 'a stream) : 'a stream =
+    case xs of
+         Nil => Nil
+       | Cons(_) =>
+           if p(hd xs) = false
+           then filter p (tl xs)
+           else Cons(fn () => (hd xs, filter p (tl xs)))
+
