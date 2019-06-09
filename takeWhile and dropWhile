@@ -1,0 +1,19 @@
+  fun takewhile (p : 'a -> bool) (xs : 'a stream) : 'a stream =
+    case xs of
+         Nil => Nil
+       | Cons(_) =>
+           if p(hd xs)
+           then
+             Cons(fn () => (hd xs, takewhile p (tl xs)))
+           else
+             Nil
+
+  fun dropwhile (p : 'a -> bool) (xs : 'a stream) : 'a stream =
+    case xs of
+         Nil => Nil
+       | Cons(_) =>
+           if p(hd xs)
+           then
+             dropwhile p (tl xs)
+           else
+             Cons(fn () => (hd xs, tl xs))
